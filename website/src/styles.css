@@ -1,0 +1,165 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --font-display: "Fraunces", "Amiri", ui-serif, Georgia, serif;
+  --font-sans: "Inter", "Cairo", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Editorial monochrome palette + terracotta accent */
+  --paper: oklch(0.975 0.005 85);
+  --ink: oklch(0.16 0.01 60);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(0.985 0.003 85);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: oklch(0.93 0.008 80);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.94 0.006 80);
+  --muted-foreground: oklch(0.45 0.012 60);
+  --accent: oklch(0.62 0.16 42);
+  --accent-foreground: var(--paper);
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: var(--paper);
+  --border: oklch(0.87 0.008 70);
+  --input: oklch(0.87 0.008 70);
+  --ring: var(--ink);
+}
+
+.dark {
+  --paper: oklch(0.14 0.01 60);
+  --ink: oklch(0.96 0.005 85);
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: oklch(0.18 0.01 60);
+  --card-foreground: var(--ink);
+  --popover: var(--paper);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: oklch(0.22 0.01 60);
+  --secondary-foreground: var(--ink);
+  --muted: oklch(0.22 0.01 60);
+  --muted-foreground: oklch(0.7 0.01 70);
+  --accent: oklch(0.7 0.17 42);
+  --accent-foreground: oklch(0.14 0.01 60);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: var(--ink);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  :lang(ar) {
+    font-family: "Cairo", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  }
+  :lang(ar) .font-display,
+  :lang(ar) h1, :lang(ar) h2, :lang(ar) h3 {
+    font-family: "Amiri", "Noto Naskh Arabic", serif;
+  }
+  .font-display {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility hairline {
+  border-color: color-mix(in oklab, var(--ink) 15%, transparent);
+}
+
+/* Editorial reveal */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes wipe {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.reveal {
+  opacity: 0;
+}
+.reveal.in,
+.in .reveal {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.15, 1) forwards;
+}
+.reveal-delay-1.in, .in .reveal-delay-1 { animation-delay: 0.08s; }
+.reveal-delay-2.in, .in .reveal-delay-2 { animation-delay: 0.16s; }
+.reveal-delay-3.in, .in .reveal-delay-3 { animation-delay: 0.24s; }
+.reveal-delay-4.in, .in .reveal-delay-4 { animation-delay: 0.32s; }
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+:lang(ar) .marquee-track { animation-direction: reverse; }
+
+/* Portfolio hover */
+.tile-img {
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.15, 1), filter 0.6s ease;
+  filter: grayscale(20%) contrast(1.02);
+}
+.tile:hover .tile-img {
+  transform: scale(1.04);
+  filter: grayscale(0%) contrast(1);
+}
